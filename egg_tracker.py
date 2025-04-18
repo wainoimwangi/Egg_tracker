@@ -2,12 +2,16 @@
 import streamlit as st
 import pandas as pd
 from datetime import date
-from db import get_engine
-from sqlalchemy import text
+from sqlalchemy import text, create_engine
 
 # Constants
 MIN_EGGS = 0
 MAX_EGGS = 1  # Assuming chickens lay 0 or 1 egg per day
+
+def get_engine():
+    return create_engine(
+        f"postgresql://{st.secrets['db_user']}:{st.secrets['db_pass']}@{st.secrets['db_host']}/{st.secrets['db_name']}"
+    )
 
 def apply_custom_styles():
     """Load and apply custom CSS styles"""
