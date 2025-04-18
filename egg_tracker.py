@@ -9,9 +9,13 @@ MIN_EGGS = 0
 MAX_EGGS = 1  # Assuming chickens lay 0 or 1 egg per day
 
 def get_engine():
-    return create_engine(
-        f"postgresql://{st.secrets['db_user']}:{st.secrets['db_pass']}@{st.secrets['db_host']}/{st.secrets['db_name']}"
+    """Get database engine with secrets"""
+    secrets = st.secrets["postgres"]
+    conn_string = (
+        f"postgresql://{secrets['username']}:{secrets['password']}@"
+        f"{secrets['host']}:{secrets['port']}/{secrets['database']}"
     )
+    return create_engine(conn_string)
 
 def apply_custom_styles():
     """Load and apply custom CSS styles"""
