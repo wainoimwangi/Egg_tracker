@@ -3,18 +3,25 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 from sqlalchemy import text, create_engine
+import os
 
 # Constants
 MIN_EGGS = 0
 MAX_EGGS = 1  # Assuming chickens lay 0 or 1 egg per day
 
 def get_engine():
-    """Get database engine with secrets"""
-    secrets = st.secrets["postgres"]
-    conn_string = (
-        f"postgresql://{secrets['username']}:{secrets['password']}@"
-        f"{secrets['host']}:{secrets['port']}/{secrets['database']}"
-    )
+    try:
+        # Try Streamlit secrets first
+        secrets = st.secrets["postgres"]
+        conn_string = (
+            f"postgresql://{secrets['username']}:{secrets['password']}@"
+            f"{secrets['host']}:{secrets['port']}/{secrets['database']}"
+        )
+    except:
+        # Fallback to environment variables
+        conn_string = os.getenv("DATABASE_URL", 
+            "postgresql://postgres:Khanselm%4023@localhost:5432/egg_tracker")
+    
     return create_engine(conn_string)
 
 def apply_custom_styles():

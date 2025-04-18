@@ -3,3 +3,4 @@ pandas
 sqlalchemy>=2.0.0
 psycopg2-binary  # For PostgreSQL
 python-dotenv    # Optional for local dev
+os
